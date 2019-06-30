@@ -1,6 +1,7 @@
 require('dotenv').config()
 const groupBy = require('lodash/groupBy')
 const mapValues = require('lodash/mapValues')
+const find = require('lodash/find')
 
 const memberConfigVars =
   Object.entries(process.env)
@@ -13,11 +14,16 @@ const getMembers = () => {
     return name
   })
 
-  return mapValues(groupByMemberName, (d, name) => ({
-    name,
-    id: d[0][1],
-    password: d[1][1]
-  }))
+  return mapValues(groupByMemberName, (d, name) => {
+    const idKeyValue = find(d, d => d[0].includes('ID'))
+    const passwordKeyValue = find(d, d => d[0].includes('PASSWORD'))
+
+    return {
+      name,
+      id: idKeyValue[1],
+      password: passwordKeyValue[1]
+    }
+  })
 }
 
 module.exports = {
