@@ -1,2 +1,1 @@
-punchIn: npm run punch-in
-punchOut: npm run punch-out
+clock: npm run cron

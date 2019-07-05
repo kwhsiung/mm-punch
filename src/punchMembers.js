@@ -7,22 +7,22 @@ firebase.initializeApp({
 
 const punch = require('./punch')
 
-const action = process.argv[2]
-
-firebase
-  .database()
-  .ref('members')
-  .once('value')
-  .then(snapshot => {
-    // 'members': {
-    //   'MemberName': {
-    //     'id': 'id',
-    //     'password': 'password'
-    //   }
-    // }
-    const members = snapshot.val()
-    forEach(members, (memberData, memberName) => {
-      const payload = Object.assign(memberData, { action, name: memberName })
-      punch(payload)
+module.exports = action => {
+  firebase
+    .database()
+    .ref('members')
+    .once('value')
+    .then(snapshot => {
+      // 'members': {
+      //   'MemberName': {
+      //     'id': 'id',
+      //     'password': 'password'
+      //   }
+      // }
+      const members = snapshot.val()
+      forEach(members, (memberData, memberName) => {
+        const payload = Object.assign(memberData, { action, name: memberName })
+        punch(payload)
+      })
     })
-  })
+}

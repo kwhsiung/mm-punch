@@ -5,6 +5,7 @@
   "scripts": {
     "punch-in": "node src/punchMembers in",
     "punch-out": "node src/punchMembers out",
+    "cron": "node src/cron.js",
     "dev": "cross-env NODE_ENV=development node src/punchMembers out",
     "lint": "eslint --ext .js --ignore-path .gitignore --ignore-pattern !.eslintrc.js --max-warnings 0",
     "lintfix": "eslint --ext .js --ignore-path .gitignore --ignore-pattern !.eslintrc.js . --fix"
@@ -30,6 +31,7 @@
   },
   "homepage": "https://github.com/kwhsiung/mm-punch#readme",
   "dependencies": {
+    "cron": "^1.7.1",
     "cross-env": "^5.2.0",
     "dayjs": "^1.8.14",
     "dotenv": "^8.0.0",

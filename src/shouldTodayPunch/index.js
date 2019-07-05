@@ -1,6 +1,6 @@
 const holiday = require('taiwan-holiday')
 const dayjs = require('dayjs')
-const today = dayjs().add(8, 'hour')
+const today = dayjs()
 const trim = require('lodash/trim')
 
 const validateVacation = require('./validateVacation')
