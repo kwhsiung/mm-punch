@@ -1,6 +1,6 @@
 const holiday = require('taiwan-holiday')
 const dayjs = require('dayjs')
-const today = dayjs()
+let today
 const trim = require('lodash/trim')
 
 const validateVacation = require('./validateVacation')
@@ -10,6 +10,8 @@ const {
 } = require('../../config')
 
 const _isTodayHoliday = async () => {
+  console.log(`Start checking holiday of ${today}`)
+
   const result = await holiday
     .init()
     .then(() => {
@@ -19,6 +21,8 @@ const _isTodayHoliday = async () => {
 }
 
 const _isTodayVacation = async (browser, { action, name, id, today }) => {
+  console.log(`${name}/${id}/punch-${action}: Start checking vacation of ${today}`)
+
   const pageCheckVacation = await browser.newPage()
   await pageCheckVacation.goto(urls.pageCheckVacation)
 
@@ -47,6 +51,10 @@ const _isTodayVacation = async (browser, { action, name, id, today }) => {
 
 module.exports = async (browser, { action, name, id }) => {
   console.log(`${name}/${id}/punch-${action}: Check holiday/vacation for ${name}/${id}`)
+
+  today = dayjs()
+  console.log(`${name}/${id}/punch-${action}: Today is ${today}`)
+
   const isTodayHoliday = await _isTodayHoliday()
 
   // This line wont't exec while isTodayHoliday is true
