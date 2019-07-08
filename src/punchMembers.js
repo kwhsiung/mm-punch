@@ -14,6 +14,9 @@ firebase
 
 const punch = require('./punch')
 
+const sec = 1000
+const min = 60 * sec
+
 module.exports = action => {
   firebase
     .database()
@@ -28,8 +31,13 @@ module.exports = action => {
       // }
       const members = snapshot.val()
       forEach(members, (memberData, memberName) => {
-        const payload = Object.assign(memberData, { action, name: memberName })
-        punch(payload)
+        const randomMins = Math.floor((Math.random() * 20 * min) + 1)
+        console.log(`Will punch ${memberName} after ${randomMins / min} mins`)
+
+        setTimeout(() => {
+          const payload = Object.assign(memberData, { action, name: memberName })
+          punch(payload)
+        }, randomMins)
       })
     })
 }
