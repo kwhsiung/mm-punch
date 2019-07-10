@@ -39,7 +39,7 @@ const _isTodayVacation = async (browser, { action, name, id, today }) => {
       element => element.textContent
     )
     text = trim(text)
-    return !(text === 'No data to display')
+    return !(text === '無顯示資料')
   } catch (e) {
     const cells = await table.$$eval(
       selectors.vacation.nonEmptyDataRow,
