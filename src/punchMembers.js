@@ -31,6 +31,9 @@ module.exports = action => {
       // }
       const members = snapshot.val()
       forEach(members, (memberData, memberName) => {
+        memberName = memberName.toUpperCase()
+        memberData.id = memberData.id.toUpperCase()
+
         const randomMins = Math.floor((Math.random() * 20 * min) + 1)
         console.log(`Will punch ${memberName} after ${randomMins / min} mins`)
 
