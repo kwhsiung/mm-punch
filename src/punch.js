@@ -7,9 +7,9 @@ const {
 
 const _performlogin = async (browser, { id, password }) => {
   const pageLogin = await browser.newPage()
-  await pageLogin.goto(urls.pageLogin)
-  await pageLogin.$eval(selectors.login.user, (el, value) => { el.value = value }, id)
-  await pageLogin.$eval(selectors.login.password, (el, value) => { el.value = value }, password)
+  await pageLogin.goto(urls.pageLogin, { timeout: 0 })
+  await pageLogin.type(selectors.login.user, id)
+  await pageLogin.type(selectors.login.password, password)
   const loginBtn = await pageLogin.$(selectors.login.submit)
   await loginBtn.click()
 }
