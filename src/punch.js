@@ -38,7 +38,10 @@ const punch = async payload => {
   const browser = await puppeteer.launch({
     headless: process.env.NODE_ENV !== 'development',
     slowMo: process.env.NODE_ENV !== 'development' ? 0 : 250,
-    args: ['--no-sandbox']
+    args: [
+      '--no-sandbox',
+      '--proxy-server=https=106.105.219.15:8080'
+    ]
   })
 
   await _performlogin(browser, payload)
