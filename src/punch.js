@@ -40,7 +40,7 @@ const punch = async payload => {
     slowMo: process.env.NODE_ENV !== 'development' ? 0 : 250,
     args: [
       '--no-sandbox',
-      '--proxy-server=https=118.163.96.167:3129'
+      '--proxy-server=socks4://122.117.65.107:44763'
     ]
   })
 
