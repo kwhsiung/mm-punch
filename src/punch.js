@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer')
 const _shouldTodayPunch = require('./shouldTodayPunch')
+const fetchAvalibleProxy = require('./fetchAvalibleProxy')
 const {
   urls,
   selectors
@@ -35,12 +36,13 @@ const punch = async payload => {
   const { action, name, id } = payload
   console.log(`${name}/${id}/punch-${action}: Start punch ${action} for ${name}/${id}`)
 
+  const proxy = await fetchAvalibleProxy()
   const browser = await puppeteer.launch({
     headless: process.env.NODE_ENV !== 'development',
     slowMo: process.env.NODE_ENV !== 'development' ? 0 : 250,
     args: [
       '--no-sandbox',
-      '--proxy-server=socks4://114.43.5.97:4145'
+      `--proxy-server=${proxy}`
     ]
   })
 
