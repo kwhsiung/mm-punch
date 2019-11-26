@@ -1,5 +1,10 @@
+require('dotenv').config()
 const Member = require('../src/member')
 
+const realMember = {
+  id: process.env.TEST_PUNCH_ID,
+  password: process.env.TEST_PUNCH_PASSWORD
+}
 const testMember = {
   id: 'testId',
   password: 'testPassword'
@@ -52,5 +57,21 @@ describe('browser handling', () => {
     const member = new Member(testMember)
     await member.lunchBrowser()
     expect(member.browser.constructor.name).toBe('Browser')
+  })
+})
+
+describe('punch system', () => {
+  it('should go to the punch site successfully if we call gotoPunchSite method', async () => {
+    const member = new Member(testMember)
+    const page = await member.gotoPunchSite()
+    const title = await page.title()
+    await expect(title).toMatch('SCSHR')
+  })
+
+  it('should login successfully if we provide valid proper id/password', async () => {
+    const member = new Member(realMember)
+    const page = await member.login()
+    const title = await page.title()
+    await expect(title).toMatch('SCSHR - [SCS001] 精鏡傳媒')
   })
 })

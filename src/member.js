@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer')
-const { urls } = require('../config')
+const { urls, selectors } = require('../config')
 
 class Member {
   constructor ({ id = '', password = '' }) {
@@ -31,14 +31,21 @@ class Member {
     this.browser = browser
   }
 
-  async login () {
+  async gotoPunchSite () {
     await this.lunchBrowser()
     const pageLogin = await this.browser.newPage()
     await pageLogin.goto(urls.pageLogin, { timeout: 0 })
-    // await pageLogin.type(selectors.login.user, id)
-    // await pageLogin.type(selectors.login.password, password)
-    // const loginBtn = await pageLogin.$(selectors.login.submit)
-    // await loginBtn.click()
+    return pageLogin
+  }
+
+  async login () {
+    const page = await this.gotoPunchSite()
+    await page.type(selectors.login.user, this.id)
+    await page.type(selectors.login.password, this.password)
+    const loginBtn = await page.$(selectors.login.submit)
+    await loginBtn.click()
+    await page.waitForNavigation()
+    return page
   }
 }
 
