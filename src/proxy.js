@@ -15,13 +15,12 @@ module.exports = async () => {
     })
     const page = await browser.newPage()
     try {
-      console.log(`try to use proxy: ${uri} successfully`)
-      await page.goto(urls.pageLogin)
+      await page.goto(urls.pageLogin, { timeout: 4000 })
       await browser.close()
-      console.log(`proxy: ${uri} is connectable`)
+      console.log(`[proxy] try to use proxy: ${uri} successfully`)
       return uri
     } catch (error) {
-      console.error(`try to use proxy: ${uri} fail`)
+      console.error(`[proxy] try to use proxy: ${uri} fail`)
       console.error(error)
       await browser.close()
     }

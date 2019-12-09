@@ -1,16 +1,14 @@
 {
   "name": "@kwhsiung/mm-punch",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "scripts": {
-    "punch-in": "node src/punchMembers in",
-    "punch-out": "node src/punchMembers out",
-    "cron": "node src/cron.js",
-    "dev": "cross-env NODE_ENV=development node src/punchMembers out",
+    "cron": "cross-env NODE_ENV=production node src/index.js",
+    "dev": "node src/index.js",
+    "test": "jest --watch",
     "lint": "eslint --ext .js --ignore-path .gitignore --ignore-pattern !.eslintrc.js --max-warnings 0",
     "lintall": "eslint --ext .js --ignore-path .gitignore --ignore-pattern !.eslintrc.js --max-warnings 0 .",
-    "lintfix": "eslint --ext .js --ignore-path .gitignore --ignore-pattern !.eslintrc.js . --fix",
-    "test": "jest --watch"
+    "lintfix": "eslint --ext .js --ignore-path .gitignore --ignore-pattern !.eslintrc.js . --fix"
   },
   "husky": {
     "hooks": {
