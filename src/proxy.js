@@ -21,7 +21,7 @@ module.exports = async () => {
       return uri
     } catch (error) {
       console.error(`[proxy] try to use proxy: ${uri} fail`)
-      console.error(error)
+      // console.error(error)
       await browser.close()
     }
   }
