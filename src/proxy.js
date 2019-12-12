@@ -15,7 +15,7 @@ module.exports = async () => {
     })
     const page = await browser.newPage()
     try {
-      await page.goto(urls.pageLogin, { timeout: 4000 })
+      await page.goto(urls.pageLogin)
       await browser.close()
       console.log(`[proxy] try to use proxy: ${uri} successfully`)
       return uri
