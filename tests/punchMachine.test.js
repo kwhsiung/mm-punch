@@ -1,3 +1,5 @@
+jest.setTimeout(30000)
+
 require('dotenv').config()
 const trim = require('lodash/trim')
 const createPunchMachine = require('../src/punchMachine')
@@ -69,7 +71,7 @@ describe('features if we provide valid type of member info', () => {
     const isNotVacation = await punchMachine.checkVacation(new Date(process.env.TEST_PUNCH_NORMAL_DATE))
     expect(isVacation).toBe(true)
     expect(isNotVacation).toBe(false)
-  }, 100000)
+  })
   it('should throw error when not specify punch action (in/out)', async () => {
     await expect(punchMachine.punch())
       .rejects
@@ -79,10 +81,10 @@ describe('features if we provide valid type of member info', () => {
     const button = await punchMachine.punch('in')
     const text = await (await button.getProperty('textContent')).jsonValue()
     expect(trim(text)).toBe('上　　班')
-  }, 100000)
+  })
   it('could punchOut', async () => {
     const button = await punchMachine.punch('out')
     const text = await (await button.getProperty('textContent')).jsonValue()
     expect(trim(text)).toBe('下　　班')
-  }, 100000)
+  })
 })
