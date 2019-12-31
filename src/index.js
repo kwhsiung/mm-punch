@@ -1,3 +1,5 @@
+const checkHoliday = require('./holiday')
+
 if (process.env.NODE_ENV === 'production') {
   const CronJob = require('cron').CronJob
   const every10AMDaily = '0 0 10 * * *'
@@ -6,18 +8,25 @@ if (process.env.NODE_ENV === 'production') {
 
   const punchMembers = require('./members')
 
+  const handleOnTick = action => {
+    return async () => {
+      const today = new Date()
+      const isHoliday = await checkHoliday(today)
+      if (!isHoliday) {
+        punchMembers(action)
+      } else {
+        console.log('[cron] Today is holiday, skip the punch process')
+      }
+    }
+  }
   const jobPunchMembersIn = new CronJob({
     cronTime: every10AMDaily,
-    onTick () {
-      punchMembers('in')
-    },
+    onTick: handleOnTick('in'),
     timeZone
   })
   const jobPunchMembersOut = new CronJob({
     cronTime: every8PMDaily,
-    onTick () {
-      punchMembers('out')
-    },
+    onTick: handleOnTick('out'),
     timeZone
   })
 
@@ -27,11 +36,17 @@ if (process.env.NODE_ENV === 'production') {
   require('dotenv').config()
   const createPunchRobot = require('./robot')
   const startRobot = async () => {
-    const robot = await createPunchRobot({
-      id: process.env.TEST_PUNCH_ID,
-      password: process.env.TEST_PUNCH_PASSWORD
-    })
-    await robot.punch('out')
+    const today = new Date()
+    const isHoliday = await checkHoliday(today)
+    if (!isHoliday) {
+      const robot = await createPunchRobot({
+        id: process.env.TEST_PUNCH_ID,
+        password: process.env.TEST_PUNCH_PASSWORD
+      })
+      await robot.punch('out')
+    } else {
+      console.log('[cron] Today is holiday, skip the punch process')
+    }
   }
   startRobot()
 }

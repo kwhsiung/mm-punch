@@ -1,4 +1,3 @@
-const checkHoliday = require('./holiday')
 const findProxy = require('./proxy')
 const createPunchMachine = require('./punchMachine')
 
@@ -24,13 +23,10 @@ const createPunchRobot = async ({ id = '', password = '' }) => {
 
     const today = new Date()
 
-    const isHoliday = await checkHoliday(today)
-    logger.log(`[robot] Today is holiday? ${isHoliday}`)
-
     const isVacation = await punchMachine.checkVacation(today)
     logger.log(`[robot] Today is vacation? ${isVacation}`)
 
-    const shouldTodayPunch = !isHoliday && !isVacation
+    const shouldTodayPunch = !isVacation
     logger.log(`[robot] Today should punch? ${shouldTodayPunch}`)
 
     if (shouldTodayPunch) {
