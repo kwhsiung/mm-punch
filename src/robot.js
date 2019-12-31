@@ -5,19 +5,36 @@ const createPunchRobot = async ({ id = '', password = '' }) => {
   /*
   ** mm's punch website block foreign ip,
   ** so we need to find available proxy host in taiwan first.
+  **
+  ** but we still may encounter connection issue after we find available proxy
+  ** if so, try again
   */
-  const proxy = await findProxy()
-
-  const punchMachine = await createPunchMachine({
-    id,
-    password,
-    browserOptions: {
-      args: [
-        '--no-sandbox',
-        `--proxy-server=${proxy}`
-      ]
+  let retryCount = 0
+  const retryCountLimit = 10
+  let punchMachine
+  while (true) {
+    const proxy = await findProxy()
+    try {
+      punchMachine = await createPunchMachine({
+        id,
+        password,
+        browserOptions: {
+          args: [
+            '--no-sandbox',
+            `--proxy-server=${proxy}`
+          ]
+        }
+      })
+      break
+    } catch (error) {
+      retryCount += 1
+      console.warn(`[robot] We have some issues about proxies, retry count: ${retryCount}/${retryCountLimit}`)
+      if (retryCount === retryCountLimit) {
+        throw new Error('We have some issues about proxies, should check manually')
+      }
     }
-  })
+  }
+
   const punch = async action => {
     const logger = require('./logger')({ action, id })
 
