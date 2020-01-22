@@ -36,7 +36,7 @@ const isStatusValid = cells => {
 }
 const isIdValid =
   (cells, id) => {
-    console.log('[vacationValidator]  Validate vacation id')
+    console.log('[vacationValidator] Validate vacation id')
 
     const idInCell = cells[heads.indexOf('員工工號')]
     console.log(`[vacationValidator] idInCell is: ${idInCell}`)
@@ -57,11 +57,11 @@ const isDateValid =
     console.log(`[vacationValidator] day is: ${day.format('YYYY/MM/DD')}`)
 
     const result = (
-      dayjs(startDateInCell).isBefore(day) &&
-      dayjs(endDateInCell).isAfter(day)
+      dayjs(startDateInCell).isBefore(day, 'day') &&
+      dayjs(endDateInCell).isAfter(day, 'day')
     ) || (
-      dayjs(startDateInCell).isSame(day) &&
-      dayjs(endDateInCell).isSame(day)
+      dayjs(startDateInCell).isSame(day, 'day') ||
+      dayjs(endDateInCell).isSame(day, 'day')
     )
     console.log(`[vacationValidator] startDateInCell/endDateInCell is ${result ? 'valid' : 'invalid'}`)
 
