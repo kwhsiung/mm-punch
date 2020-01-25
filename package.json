@@ -1,6 +1,6 @@
 {
   "name": "@kwhsiung/mm-punch",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "",
   "scripts": {
     "cron": "cross-env NODE_ENV=production node src/index.js",
@@ -31,6 +31,7 @@
   },
   "homepage": "https://github.com/kwhsiung/mm-punch#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "cron": "^1.7.1",
     "cross-env": "^5.2.0",
     "dayjs": "^1.8.14",
