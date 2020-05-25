@@ -8,12 +8,12 @@ describe('check for holiday', () => {
     const isTodayHoliday = await checkHoliday(new Date())
     expect(typeof isTodayHoliday === 'boolean').toBe(true)
   })
-  it('should return true if we really pass a holiday as parameter', async () => {
-    const isTodayHoliday = await checkHoliday('2019/01/01')
-    expect(isTodayHoliday).toBe(true)
-  })
-  it('should return false if we not pass a holiday as parameter', async () => {
-    const isTodayHoliday = await checkHoliday('2019/01/02')
-    expect(isTodayHoliday).toBe(false)
+  it('should check saturday/sunday if taiwan-holiday package broken', async () => {
+    const isSaturday = await checkHoliday('2019/01/05')
+    const isSunday = await checkHoliday('2019/01/06')
+    const isMonday = await checkHoliday('2019/01/07')
+    expect(isSaturday).toBe(true)
+    expect(isSunday).toBe(true)
+    expect(isMonday).toBe(false)
   })
 })

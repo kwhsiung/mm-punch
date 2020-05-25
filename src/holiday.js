@@ -7,10 +7,16 @@ module.exports = async date => {
     throw new Error('Please provide valid date')
   }
 
-  const result = await holiday
-    .init()
-    .then(() => {
-      return holiday.isHoliday(day.format('YYYY/MM/DD'))
-    })
-  return result
+  try {
+    const result = await holiday
+      .init()
+      .then(() => {
+        return holiday.isHoliday(day.format('YYYY/MM/DD'))
+      })
+      .catch(error => { throw error })
+    return result
+  } catch (error) {
+    const isWeekend = day.day() === 0 || day.day() === 6
+    return isWeekend
+  }
 }
