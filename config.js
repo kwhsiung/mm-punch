@@ -6,8 +6,8 @@ module.exports = {
   },
   'selectors': {
     'login': {
-      'user': '#txtUserName_I',
-      'password': '#txtPassword_I',
+      'user': '#edtUserID_I',
+      'password': '#edtPassword_I',
       'submit': '#btnLogin'
     },
     'punch': {
