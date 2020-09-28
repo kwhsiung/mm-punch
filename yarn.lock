@@ -4729,9 +4729,10 @@ table@^5.2.3:
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
 
-taiwan-holiday@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/taiwan-holiday/-/taiwan-holiday-1.0.3.tgz#1cf76333f5cd4e29010ed8ea049eac1f0c608204"
+taiwan-holiday@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/taiwan-holiday/-/taiwan-holiday-1.0.5.tgz#07c781af7df58cb33c73200a630bf9aea9c48e07"
+  integrity sha512-NHgcAyAonX2St3PhMSP/ZeYAB7waQSAPhLMs17Dav+ehTSjkYa5x3rNlgIdCrh16FyWUFAID3rMr2HcxAuWg2g==
   dependencies:
     request "^2.83.0"
     request-promise "^4.2.2"
