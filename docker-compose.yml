@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  mm-punch:
+    build:
+      context: .
+    image: mm-punch:latest
+    env_file:
+      - ./.env
