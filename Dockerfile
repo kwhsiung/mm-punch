@@ -1,13 +1,10 @@
-FROM node:12-alpine AS builder
+FROM node:12-buster AS builder
 
 WORKDIR /mm-punch
 
-RUN apk update && \
-    apk add --virtual build-dependencies \
-    build-base \
-    gcc \
-    wget \
-    git
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y build-essential
 
 COPY . /mm-punch
 
@@ -17,7 +14,7 @@ RUN yarn upgrade && \
 
 RUN yarn install --production
 
-FROM node:12-alpine
+FROM node:12-buster-slim
 
 WORKDIR /mm-punch
 
