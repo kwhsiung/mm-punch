@@ -6,3 +6,4 @@ services:
     image: mm-punch:latest
     env_file:
       - ./.env
+    restart: unless-stopped
