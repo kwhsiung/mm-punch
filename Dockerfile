@@ -16,11 +16,19 @@ RUN echo "#!/bin/sh\n\
     set -ex \n\
     \n\
     MODULES=\"\n\
-    source-map-support \\n\
+    axios \\n\
     core-js \\n\
+    cron \\n\
+    cross-env \\n\
+    dayjs \\n\
+    dotenv \\n\
     lodash \\n\
+    puppeteer-core \\n\
     rxjs \\n\
-    puppeteer-core\"\n\
+    source-map-support \\n\
+    taiwan-holiday \\n\
+    unirand \\n\
+    \"\n\
     \n\
     GLOBAL_DIR=\"yarn global dir\"\n\
     for mod in $MODULES\n\
@@ -50,8 +58,7 @@ ENV TZ=Asia/Taipei
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 COPY ./package.json ./yarn.lock /mm-punch/
-RUN yarn install --production \
-    && yarn global add cross-env
+RUN yarn install --production
 
 COPY . /mm-punch
 
