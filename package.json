@@ -39,7 +39,8 @@
     "firebase": "^6.2.4",
     "lodash": "^4.17.20",
     "puppeteer-core": "^5.4.1",
-    "taiwan-holiday": "^1.0.5"
+    "taiwan-holiday": "^1.0.5",
+    "unirand": "^2.11.0"
   },
   "devDependencies": {
     "eslint": "^6.0.1",
