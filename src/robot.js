@@ -21,6 +21,8 @@ const createPunchRobot = async ({ id = '', password = '' }) => {
         browserOptions: {
           args: [
             '--no-sandbox',
+            '--disable-dev-shm-usag',
+            '--disable-setuid-sandbox',
             `--proxy-server=${proxy}`
           ]
         }

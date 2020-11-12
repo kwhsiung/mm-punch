@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer')
+const puppeteer = require('puppeteer-core')
 const dayjs = require('dayjs')
 const trim = require('lodash/trim')
 const { urls, selectors } = require('../config')
