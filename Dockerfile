@@ -55,4 +55,4 @@ RUN yarn install --production \
 
 COPY . /mm-punch
 
-CMD ["yarn", "cron"]
+ENTRYPOINT ["yarn", "cron"]
