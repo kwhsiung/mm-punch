@@ -9,7 +9,7 @@ module.exports = async date => {
 
   try {
     const result = await holiday
-      .init()
+      .init({ temp_dir: './my-temp' })
       .then(() => {
         return holiday.isHoliday(day.format('YYYY/MM/DD'))
       })
