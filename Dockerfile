@@ -50,6 +50,21 @@ done\n\
     && chmod 777 set_yarn_links.sh \
     && /bin/bash ./set_yarn_links.sh
 
+FROM debian:stable-slim AS data
+
+WORKDIR /
+
+RUN apt update \
+    && apt install curl jq -y
+
+# Get the latest data from the OpenData API of Taipei
+ARG CACHE_BUST
+ADD https://data.taipei/api/v1/dataset/b0011e96-3fc3-43ec-8bf5-07fb46dd22bb?scope=resourceAquire 1.json
+ADD https://data.taipei/api/v1/dataset/b0011e96-3fc3-43ec-8bf5-07fb46dd22bb?scope=resourceAquire&q=&limit=&offset=1000 2.json
+RUN cat 1.json | jq '.result.results' > results-1.json \
+    && cat 2.json | jq '.result.results' > results-2.json \
+    && jq -n 'reduce inputs as $in (null; . + $in)' results-1.json results-2.json > taiwan-holiday-cache.json
+
 FROM chromium-node
 WORKDIR /mm-punch
 
@@ -61,5 +76,7 @@ COPY ./package.json ./yarn.lock /mm-punch/
 RUN yarn install --production
 
 COPY . /mm-punch
+
+COPY --from=data /taiwan-holiday-cache.json /mm-punch/data/taiwan-holiday-cache.json
 
 ENTRYPOINT ["yarn", "cron"]

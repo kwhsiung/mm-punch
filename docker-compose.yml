@@ -3,6 +3,8 @@ services:
   mm-punch:
     build:
       context: .
+      args:
+        CACHE_BUST: supply-from-cmd
     image: mm-punch:latest
     env_file:
       - ./.env
