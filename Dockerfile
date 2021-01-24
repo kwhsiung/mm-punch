@@ -20,33 +20,33 @@ RUN apt update \
 
 # Install the major packages globally, so not done every time we use the image
 RUN echo "#!/bin/sh\n\
-    \n\
-    set -ex \n\
-    \n\
-    MODULES=\"@types/node \\n\
-    axios \\n\
-    core-js \\n\
-    cron \\n\
-    cross-env \\n\
-    dayjs \\n\
-    dotenv \\n\
-    lodash \\n\
-    puppeteer-core \\n\
-    rxjs \\n\
-    source-map-support \\n\
-    taiwan-holiday \\n\
-    tslint \\n\
-    typescript \\n\
-    unirand\"\n\
-    \n\
-    GLOBAL_DIR=\`yarn global dir\`\n\
-    for mod in \$MODULES\n\
-    do\n\
+\n\
+set -ex \n\
+\n\
+MODULES=\"@types/node \\n\
+        axios \\n\
+        core-js \\n\
+        cron \\n\
+        cross-env \\n\
+        dayjs \\n\
+        dotenv \\n\
+        lodash \\n\
+        puppeteer-core \\n\
+        rxjs \\n\
+        source-map-support \\n\
+        taiwan-holiday \\n\
+        tslint \\n\
+        typescript \\n\
+        unirand\"\n\
+\n\
+GLOBAL_DIR=\`yarn global dir\`\n\
+for mod in \$MODULES\n\
+do\n\
     yarn global add --verbose \$mod\n\
     cd \$GLOBAL_DIR/node_modules/\$mod\n\
     yarn link\n\
-    done\n\
-    " > set_yarn_links.sh \
+done\n\
+" > set_yarn_links.sh \
     && chmod 777 set_yarn_links.sh \
     && /bin/bash ./set_yarn_links.sh
 
