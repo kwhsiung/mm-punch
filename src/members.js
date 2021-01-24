@@ -1,4 +1,5 @@
 require('dotenv').config()
+const unirand = require('unirand')
 const forEach = require('lodash/forEach')
 const firebase = require('firebase')
 firebase
@@ -19,6 +20,9 @@ const { sendMessage } = require('./slack')
 const sec = 1000
 const min = 60 * sec
 
+const distributionRandom = unirand.delaporte(3, 1, 3)
+const distributionMax = 10
+
 module.exports = action => {
   firebase
     .database()
@@ -38,8 +42,16 @@ module.exports = action => {
         const password = memberData.password
         const logger = require('./logger')({ action, id })
 
-        const randomMins = Math.floor((Math.random() * 20 * min) + 1)
-        logger.log(`Will punch after ${randomMins / min} mins`)
+        var delayMin
+        switch (action) {
+          case 'in':
+            delayMin = (1 - distributionRandom.randomSync() / distributionMax) * 28 * min
+            break
+          case 'out':
+            delayMin = distributionRandom.randomSync() / distributionMax * 28 * min
+            break
+        }
+        logger.log(`Will punch after ${delayMin / min} mins`)
 
         setTimeout(async () => {
           try {
