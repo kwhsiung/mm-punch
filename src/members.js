@@ -23,9 +23,6 @@ const distrbutionDuration = 15 * min
 const distributionRandom = unirand.delaporte(3, 1, 3)
 const distributionMax = 10
 
-const distributionRandom = unirand.delaporte(3, 1, 3)
-const distributionMax = 10
-
 module.exports = action => {
   firebase
     .database()
