@@ -19,6 +19,9 @@ const { sendMessage } = require('./slack')
 
 const sec = 1000
 const min = 60 * sec
+const distrbutionDuration = 15 * min
+const distributionRandom = unirand.delaporte(3, 1, 3)
+const distributionMax = 10
 
 const distributionRandom = unirand.delaporte(3, 1, 3)
 const distributionMax = 10
@@ -45,10 +48,10 @@ module.exports = action => {
         var delayMin
         switch (action) {
           case 'in':
-            delayMin = (1 - distributionRandom.randomSync() / distributionMax) * 28 * min
+            delayMin = (1 - distributionRandom.randomSync() / distributionMax) * distrbutionDuration + (59 * min - distrbutionDuration)
             break
           case 'out':
-            delayMin = distributionRandom.randomSync() / distributionMax * 28 * min
+            delayMin = distributionRandom.randomSync() / distributionMax * distrbutionDuration
             break
         }
         logger.log(`Will punch after ${delayMin / min} mins`)
@@ -72,9 +75,10 @@ module.exports = action => {
               }
               sendMessage(`今日${actionZhTW}自動打卡失敗，請自行檢查並手動打卡。`, memberData.slackMemberId)
             }
+            console.log('punch error', error)
             throw new Error(`Robot try to punch ${action} for ${id}, but fail`)
           }
-        }, randomMins)
+        }, delayMin)
       })
     })
 }
