@@ -2,8 +2,8 @@ const checkHoliday = require('./holiday')
 
 if (process.env.NODE_ENV === 'production') {
   const CronJob = require('cron').CronJob
-  const every10AMDaily = '0 0 10 * * *'
-  const every8PMDaily = '0 0 20 * * *'
+  const every9AMDaily = '0 0 9 * * *'
+  const every8PMDaily = '0 0 19 * * *'
   const timeZone = 'Asia/Taipei'
 
   const punchMembers = require('./members')
@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
     }
   }
   const jobPunchMembersIn = new CronJob({
-    cronTime: every10AMDaily,
+    cronTime: every9AMDaily,
     onTick: handleOnTick('in'),
     timeZone
   })

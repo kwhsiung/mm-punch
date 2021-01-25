@@ -1,4 +1,5 @@
 require('dotenv').config()
+const unirand = require('unirand')
 const forEach = require('lodash/forEach')
 const firebase = require('firebase')
 firebase
@@ -18,6 +19,9 @@ const { sendMessage } = require('./slack')
 
 const sec = 1000
 const min = 60 * sec
+const distrbutionDuration = 15 * min
+const distributionRandom = unirand.delaporte(3, 1, 3)
+const distributionMax = 10
 
 module.exports = action => {
   firebase
@@ -38,8 +42,16 @@ module.exports = action => {
         const password = memberData.password
         const logger = require('./logger')({ action, id })
 
-        const randomMins = Math.floor((Math.random() * 20 * min) + 1)
-        logger.log(`Will punch after ${randomMins / min} mins`)
+        var delayMin
+        switch (action) {
+          case 'in':
+            delayMin = (1 - distributionRandom.randomSync() / distributionMax) * distrbutionDuration + (59 * min - distrbutionDuration)
+            break
+          case 'out':
+            delayMin = distributionRandom.randomSync() / distributionMax * distrbutionDuration
+            break
+        }
+        logger.log(`Will punch after ${delayMin / min} mins`)
 
         setTimeout(async () => {
           try {
@@ -60,9 +72,10 @@ module.exports = action => {
               }
               sendMessage(`今日${actionZhTW}自動打卡失敗，請自行檢查並手動打卡。`, memberData.slackMemberId)
             }
+            console.log('punch error', error)
             throw new Error(`Robot try to punch ${action} for ${id}, but fail`)
           }
-        }, randomMins)
+        }, delayMin)
       })
     })
 }

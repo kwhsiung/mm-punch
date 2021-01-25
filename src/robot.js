@@ -1,4 +1,4 @@
-const findProxy = require('./proxy')
+// const findProxy = require('./proxy')
 const createPunchMachine = require('./punchMachine')
 
 const createPunchRobot = async ({ id = '', password = '' }) => {
@@ -13,16 +13,21 @@ const createPunchRobot = async ({ id = '', password = '' }) => {
   const retryCountLimit = 10
   let punchMachine
   while (true) {
-    const proxy = await findProxy()
+    // const proxy = await findProxy()
     try {
       punchMachine = await createPunchMachine({
         id,
+        // id: 'M0634',
         password,
+        // password: 'Readr Is 100% Awesome!',
         browserOptions: {
           args: [
             '--no-sandbox',
-            `--proxy-server=${proxy}`
-          ]
+            '--disable-dev-shm-usag',
+            '--disable-setuid-sandbox',
+            // For personal usage, we disable the use of proxy
+            // `--proxy-server=${proxy}`
+          ],
         }
       })
       break
