@@ -1,5 +1,6 @@
 const findProxy = require('./proxy')
 const createPunchMachine = require('./punchMachine')
+const canConnectToLoginPage = require('./checkConnectToLoginPage')
 
 const createPunchRobot = async ({ id = '', password = '' }) => {
   /*
@@ -9,28 +10,36 @@ const createPunchRobot = async ({ id = '', password = '' }) => {
   ** but we still may encounter connection issue after we find available proxy
   ** if so, try again
   */
-  let retryCount = 0
-  const retryCountLimit = 10
   let punchMachine
-  while (true) {
-    const proxy = await findProxy()
-    try {
-      punchMachine = await createPunchMachine({
-        id,
-        password,
-        browserOptions: {
-          args: [
-            '--no-sandbox',
-            `--proxy-server=${proxy}`
-          ]
+  const defaultArgs = ['--no-sandbox']
+  console.log('[robot] try to connect to login page without proxy')
+  if (await canConnectToLoginPage(defaultArgs)) {
+    console.log('[robot] success to connect to login page without proxy')
+    punchMachine = await createPunchMachine({ id, password, browserOptions: { args: defaultArgs } })
+  } else {
+    console.log('[robot] fail to connect to login page without proxy')
+    let retryCount = 0
+    const retryCountLimit = 10
+    while (true) {
+      const proxy = await findProxy()
+      try {
+        punchMachine = await createPunchMachine({
+          id,
+          password,
+          browserOptions: {
+            args: [
+              '--no-sandbox',
+              `--proxy-server=${proxy}`
+            ]
+          }
+        })
+        break
+      } catch (error) {
+        retryCount += 1
+        console.warn(`[robot] We have some issues about proxies, retry count: ${retryCount}/${retryCountLimit}`)
+        if (retryCount === retryCountLimit) {
+          throw new Error('We have some issues about proxies, should check manually')
         }
-      })
-      break
-    } catch (error) {
-      retryCount += 1
-      console.warn(`[robot] We have some issues about proxies, retry count: ${retryCount}/${retryCountLimit}`)
-      if (retryCount === retryCountLimit) {
-        throw new Error('We have some issues about proxies, should check manually')
       }
     }
   }
