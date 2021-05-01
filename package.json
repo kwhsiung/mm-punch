@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/kwhsiung/mm-punch#readme",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "cron": "^1.7.1",
     "cross-env": "^5.2.0",
     "dayjs": "^1.8.14",
