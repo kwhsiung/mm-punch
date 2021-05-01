@@ -10,6 +10,9 @@
     "lintall": "eslint --ext .js --ignore-path .gitignore --ignore-pattern !.eslintrc.js --max-warnings 0 .",
     "lintfix": "eslint --ext .js --ignore-path .gitignore --ignore-pattern !.eslintrc.js . --fix"
   },
+  "engines": {
+    "node": "12.x"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
